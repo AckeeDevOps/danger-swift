@@ -1,9 +1,7 @@
 FROM swift:4.2
 
 ARG SWIFT_LINT_VERSION=0.32.0
-
-# workaround for broken packages, see https://github.com/apple/swift-docker/issues/139
-RUN rm -r /usr/lib/python2.7/site-packages
+ARG DANGER_SWIFT_VERSION=2.0.6
 
 RUN apt-get update && apt-get install -y curl
 
@@ -15,7 +13,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x |  bash - && \
 RUN git clone -b $SWIFT_LINT_VERSION --single-branch --depth 1 https://github.com/realm/SwiftLint.git SwiftLint && \
   cd SwiftLint && git submodule update --init --recursive; make install
 
-RUN git clone --single-branch --depth 1 https://github.com/fortmarek/danger-swift danger-swift && \
+RUN git clone -b $DANGER_SWIFT_VERSION --single-branch --depth 1 https://github.com/danger/danger-swift danger-swift && \
   cd danger-swift && make install
 
-ENTRYPOINT ["swift", "run", "danger-swift", "ci"]
+ENTRYPOINT ["danger-swift", "ci"]
