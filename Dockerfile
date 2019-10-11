@@ -16,4 +16,4 @@ RUN git clone -b $SWIFT_LINT_VERSION --single-branch --depth 1 https://github.co
 RUN git clone -b $DANGER_SWIFT_VERSION --single-branch --depth 1 https://github.com/danger/danger-swift danger-swift && \
   cd danger-swift && make install
 
-ENTRYPOINT ["danger-swift", "ci"]
+ENTRYPOINT ["danger-swift", "ci", "--failOnErrors"]
